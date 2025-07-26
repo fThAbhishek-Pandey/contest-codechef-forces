@@ -13,44 +13,31 @@ int main () {
     while (t--){
            int n;
            cin>>n;
-           std::vector<int> arr;
+           std::vector<int> arr(n);
            unordered_map<int,int> mp;
            for (int i = 0; i < n; ++i)
            {
            	/* code */
-           	int ele;
-           	cin>>ele;
-           	arr.push_back(ele);
-           	mp[ele]++;   	
+           cin>>arr[i];
+           	mp[arr[i]]++;   	
            }
-           int maxfreq=0;
-           int num=-1;
-           for(auto ele: mp){
-           	 if(ele.second > maxfreq) {
-           	 	  maxfreq = ele.second;
-           	 	  num= ele.first;
-           	 }
-           }
-           int l=-1,r=-1;
-           bool flag=true;
-           for(int i=0;i<n;i++){
-           	   if(i+1<n &&l==-1 && arr[i]==num && arr[i+1] !=num&& flag){
-           	   	l=arr[i];
-           	   	flag=false;
-           	   }
-           	  else if (i+1<n&&arr[i]!=num &&arr[i+1]==num &&!flag){
-           	   	r= arr[i];
+           long long r=0;
+           long long ansl=-1,ansr=-1;
+           long long len=0;
+           // two pointer
+           for(long long i=0;i<n;i++){
+              r=max(r,i);
+              while(r<n && mp[arr[r]] ==1) r++;
+              if(r-i>len){
+                len=r-i;
+                ansl=i;
+                ansr=r-1;
+              }
 
-           	   }
-           }
-           if (n==1) cout<<arr[0]<<" "<<arr[0]<<endl;
-          else if (l==-1 && r== -1) {
-           	 cout<<0<<endl;
-           }
-          else if (r==-1) {
-          		cout<<l<<" "<<arr.back()<<endl;
-          }
-          else cout<<l<<" "<<r<<endl;
+            }
+          
+           if(ansl==-1) cout<<0<<endl;
+           else cout<<ansl+1<<" "<<ansr+1<<endl;
 
     }
 	return 0;  
